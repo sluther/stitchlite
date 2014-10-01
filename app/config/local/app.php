@@ -14,5 +14,6 @@ return array(
 	*/
 
 	'debug' => true,
-
+	
+	'url' => 'http://stitchlite.stitchlabs.com:8000'
 );

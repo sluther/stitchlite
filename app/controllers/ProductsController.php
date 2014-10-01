@@ -53,6 +53,7 @@ class ProductsController extends \BaseController {
 					foreach($products['products'] as $remoteProduct) {
 
 						$variants = array_pull($remoteProduct, 'variants');
+						
 						foreach($variants as $variant) {
 
 							$name = $remoteProduct['title'] . ' - ' . ucfirst($variant['title']);
@@ -92,8 +93,6 @@ class ProductsController extends \BaseController {
 										'id' => $id,
 										'inventory_quantity_adjustment' => $product->quantity - $variant['inventory_quantity'],
 									];
-
-									var_dump($variant);
 
 									$response = $client->put($url, [
 										'auth' => [$config['key'], $config['secret']],
