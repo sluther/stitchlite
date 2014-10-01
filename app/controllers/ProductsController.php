@@ -13,6 +13,40 @@
  *          items="$ref:Product",
  *          @SWG\ResponseMessage(code=200,message="")
  *        )
+ *      ),
+ *      @SWG\Operation(
+ *      	method="POST",
+ *      	nickname="post",
+ *      	@SWG\Parameters(
+ *            @SWG\Parameter(
+ *              name="name",
+ *              description="",
+ *              paramType="body",
+ *              required=true,
+ *              type="string",
+ *            ),
+ *            @SWG\Parameter(
+ *              name="sku",
+ *              description="",
+ *              paramType="body",
+ *              required=true,
+ *              type="string",
+ *            ),
+ *            @SWG\Parameter(
+ *              name="price",
+ *              description="",
+ *              paramType="body",
+ *              required=true,
+ *              type="decimal",
+ *            ),
+ *            @SWG\Parameter(
+ *              name="quantity",
+ *              description="",
+ *              paramType="body",
+ *              required=true,
+ *              type="integer",
+ *            ),
+ *         )
  *      )
  *    )
  *  )
