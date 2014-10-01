@@ -53,7 +53,7 @@ class ProductsController extends \BaseController {
 					foreach($products['products'] as $remoteProduct) {
 
 						$variants = array_pull($remoteProduct, 'variants');
-						
+
 						foreach($variants as $variant) {
 
 							$name = $remoteProduct['title'] . ' - ' . ucfirst($variant['title']);
@@ -81,14 +81,19 @@ class ProductsController extends \BaseController {
 
 								/* sync */
 								$product = $product->first();
-								$id = $product->channelInfo->shopify->id;
+								if(!isset($product->channelInfo['shopify'])) {
+									$product->channelInfo = array_merge($product->channelInfo, ['shopify' => ['id' => $variant['id']]]);
+									$product->save();
+								}
+
+								$id = $product->channelInfo['shopify']['id'];
 								$url = 'https://' . $config['account'] . '.myshopify.com/admin/variants/' . $id . '.json';
 
 								/* do we need to update the quantitiy? */
 								if($product->quantity != $variant['inventory_quantity']) {
 
 									/* you could either use inventory_quantity_adjustment or set old and new inventory
-									   I'm using the latter */
+									   I'm using the former */
 									$variant = [
 										'id' => $id,
 										'inventory_quantity_adjustment' => $product->quantity - $variant['inventory_quantity'],
@@ -111,6 +116,88 @@ class ProductsController extends \BaseController {
 					break;
 
 				case 'vend':
+					/* get vend channel token */
+					$channel = Channel::where('type', '=', 'vend')->get();
+
+					/* do we have a Vend channel in the DB? */
+					if(!$channel->isEmpty()) {
+						$channel = $channel->first();
+
+						$url = 'https://' . $channel->domain_prefix . '.vendhq.com/api/products';
+						$products = $client->get($url, [
+							'headers' => [
+								'Authorization' => sprintf('Bearer %s', $channel->access_token)
+							]
+						])->json();
+						
+						foreach($products['products'] as $remoteProduct) {
+
+							$outlet = array_pull($remoteProduct, 'inventory');
+							$outlet = array_pull($outlet, 0);
+
+							$name = $remoteProduct['name'];
+							$price = $remoteProduct['price'];
+
+							$sku = $remoteProduct['sku'];
+
+							$product = Product::where('sku', '=', $sku)->get();
+
+							if($product->isEmpty()) {
+
+								$product = new Product;
+								$product->name = $name;
+								$product->price = $price;
+								$product->quantity = $outlet['count'];
+								$product->sku = $sku;
+								
+								/* we could eventually use this property
+								   to store far more info about each product */
+								$product->channelInfo = ['vend' => ['id' => $remoteProduct['id']]];
+
+								$product->save();
+
+							} else {
+
+								/* sync */
+								$product = $product->first();
+								/* is product linked to vend? */
+
+								if(!isset($product->channelInfo['vend'])) {
+									$product->channelInfo = array_merge($product->channelInfo, ['vend' => ['id' => $remoteProduct['id']]]);
+									$product->save();
+								}
+
+								$id = $product->channelInfo['vend']['id'];
+								$url = 'https://' . $channel->domain_prefix . '.vendhq.com/api/products';
+
+								/* do we need to update the quantitiy? */
+								if($product->quantity != $outlet['count']) {
+									
+									$outlet['count'] = $product->quantity;
+
+									$params = [
+										'id' => $id,
+										'inventory' => [(object) $outlet],
+									];
+
+									$response = $client->post($url, [
+										'headers' => [
+											'Authorization' => sprintf('Bearer %s', $channel->access_token)
+										],
+										'body' => json_encode($params)
+									])->json();
+
+									dd($response);
+
+								}
+
+							}
+
+						}
+
+						break;
+					}
+
 
 					break;
 

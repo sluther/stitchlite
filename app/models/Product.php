@@ -19,7 +19,7 @@ class Product extends Eloquent {
 
     public function getChannelInfoAttribute($value)
     {
-        return json_decode($value);
+        return json_decode($value, true);
     }
 
     public function setChannelInfoAttribute($value)
