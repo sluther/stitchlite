@@ -217,7 +217,20 @@ class ProductsController extends \BaseController {
 	 */
 	public function store()
 	{
-		//
+		$input = Input::json();
+
+		$product = new Product;
+		
+		foreach($input as $key => $value) {
+
+			if(isset($product->$key)) {
+				$product->$key = $value;
+			}
+		}
+
+		$product->save();
+
+		return Response::json($product);
 	}
 
 
