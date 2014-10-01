@@ -14,5 +14,5 @@
 
 Route::get('channels/auth/{channel}', 'ChannelsController@auth');
 Route::get('channels/callback/{channel}', 'ChannelsController@callback');
-Route::get('products/sync', 'ProductsController@sync');
+Route::post('products/sync', 'ProductsController@sync');
 Route::resource('products', 'ProductsController');
