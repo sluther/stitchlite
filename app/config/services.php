@@ -35,7 +35,9 @@ return array(
 	],
 
 	'vend' => [
-
+		'key' => 'mDhuluDXuZc3YBQk30sANSSdugzVJjAt',
+		'secret' => '7H4M3GbergrDvHMhs1yGnY6ijR0AnHlz',
+		'url' => 'https://secure.vendhq.com/connect',
 	]
 
 );
