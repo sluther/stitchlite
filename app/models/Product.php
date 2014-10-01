@@ -1,17 +1,48 @@
 <?php
 
+/**
+ *  @SWG\Model(id="Product")
+ */
 class Product extends Eloquent {
 
 	/* the name of the product */
+	/**
+	 *  @SWG\Property(
+	 *    name="name",
+	 *    type="string",
+	 *    description="The name of the product"
+	 *  )
+	 */
 	private $name;
 
-	/* the SKU of the product */
+	/* the name of the product */
+	/**
+	 *  @SWG\Property(
+	 *    name="sku",
+	 *    type="string",
+	 *    description="The SKU of the product"
+	 *  )
+	 */
 	private $sku;
 
-	/* the price of the item */
+	/* the name of the product */
+	/**
+	 *  @SWG\Property(
+	 *    name="price",
+	 *    type="decimal",
+	 *    description="The price of the product"
+	 *  )
+	 */
 	private $price;
 
-	/* the quantity */
+	/* the name of the product */
+	/**
+	 *  @SWG\Property(
+	 *    name="quantity",
+	 *    type="integer",
+	 *    description="The quantity of the product"
+	 *  )
+	 */
 	private $quantity;
 
 	/* raw channel info about the product, used for syncing */

@@ -1,5 +1,23 @@
 <?php
 
+/**
+ *  @SWG\Resource(
+ *    apiVersion="2.0",
+ *    resourcePath="/products",
+ *    @SWG\Api(path="/products",
+ *      @SWG\Operations(
+ *        @SWG\Operation(
+ *          method="GET",
+ *          nickname="get",
+ *          type="array",
+ *          items="$ref:Product",
+ *          @SWG\ResponseMessage(code=200,message="")
+ *        )
+ *      )
+ *    )
+ *  )
+ */
+
 class ProductsController extends \BaseController {
 
 	/**
