@@ -172,7 +172,7 @@ class ProductsController extends \BaseController {
 
 								/* do we need to update the quantitiy? */
 								if($product->quantity != $outlet['count']) {
-									
+
 									$outlet['count'] = $product->quantity;
 
 									$params = [
@@ -186,8 +186,6 @@ class ProductsController extends \BaseController {
 										],
 										'body' => json_encode($params)
 									])->json();
-
-									dd($response);
 
 								}
 
