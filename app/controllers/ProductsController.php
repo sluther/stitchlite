@@ -90,14 +90,14 @@ class ProductsController extends \BaseController {
 								$url = 'https://' . $config['account'] . '.myshopify.com/admin/variants/' . $id . '.json';
 
 								/* do we need to update the quantitiy? */
-								if($product->quantity != $variant['inventory_quantity']) {
+								if($product->quantity != $variant['inventory_quantity'] || $product->price != $variant['price']) {
 
 									/* you could either use inventory_quantity_adjustment or set old and new inventory
 									   I'm using the former */
 									$variant = [
 										'id' => $id,
 										'price' => $product->price,
-										'title' => $product->name,
+										'option1' => $product->name,
 										'inventory_quantity_adjustment' => $product->quantity - $variant['inventory_quantity'],
 									];
 
@@ -107,6 +107,8 @@ class ProductsController extends \BaseController {
 											'variant' => $variant
 										]
 									])->json();
+
+									dd($variant);
 
 								}
 
@@ -172,8 +174,8 @@ class ProductsController extends \BaseController {
 								$id = $product->channelInfo['vend']['id'];
 								$url = 'https://' . $channel->domain_prefix . '.vendhq.com/api/products';
 
-								/* do we need to update the quantitiy? */
-								if($product->quantity != $outlet['count']) {
+								/* do we need to update the quantity? */
+								if($product->quantity != $outlet['count'] || $product->price != $remoteProduct['price']) {
 
 									$outlet['count'] = $product->quantity;
 
