@@ -96,6 +96,8 @@ class ProductsController extends \BaseController {
 									   I'm using the former */
 									$variant = [
 										'id' => $id,
+										'price' => $product->price,
+										'title' => $product->name,
 										'inventory_quantity_adjustment' => $product->quantity - $variant['inventory_quantity'],
 									];
 
@@ -177,6 +179,8 @@ class ProductsController extends \BaseController {
 
 									$params = [
 										'id' => $id,
+										'name' => $product->name,
+										'retail_price' => $product->price,
 										'inventory' => [(object) $outlet],
 									];
 
