@@ -136,6 +136,9 @@ class ProductsController extends \BaseController {
 						
 						foreach($products['products'] as $remoteProduct) {
 
+							if(!isset($remoteProduct['type']))
+								continue;
+
 							$outlet = array_pull($remoteProduct, 'inventory');
 							$outlet = array_pull($outlet, 0);
 
@@ -157,7 +160,6 @@ class ProductsController extends \BaseController {
 								/* we could eventually use this property
 								   to store far more info about each product */
 								$product->channelInfo = ['vend' => ['id' => $remoteProduct['id']]];
-
 								$product->save();
 
 							} else {
@@ -208,7 +210,6 @@ class ProductsController extends \BaseController {
 			}
 
 		}
-
 
 	}
 
