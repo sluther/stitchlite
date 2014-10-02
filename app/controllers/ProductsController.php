@@ -166,8 +166,6 @@ class ProductsController extends \BaseController {
 										]
 									])->json();
 
-									dd($variant);
-
 								}
 
 							}
