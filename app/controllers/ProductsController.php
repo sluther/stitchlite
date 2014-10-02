@@ -91,7 +91,7 @@ class ProductsController extends \BaseController {
 
 		$client = new \GuzzleHttp\Client();
 
-		$channels = ['shopify', 'vend'];
+		$channels = ['shopify'];
 
 		foreach($channels as $channel) {
 
